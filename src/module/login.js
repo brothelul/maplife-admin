@@ -10,10 +10,16 @@ import {Message} from 'element-ui'
 export default {
   namespace: true,
   state: {
+    loginForm: {
+      username: null,
+      password: null
+    },
+    loading: false
   },
   actions: {
-    login ({commit},loginForm) {
+    login ({commit, state},loginForm) {
       console.log(loginForm)
+      state.loading = true
       // const data = request('http://rap2api.taobao.org/app/mock/data/721743', 'get', null, loginForm)
       // console.log(data)
       axios.post('http://rap2api.taobao.org/app/mock/120760/admin/public/api/login', {username: loginForm.username, password: loginForm.password})
@@ -21,8 +27,9 @@ export default {
           Message.success({
             message: '登录成功'
           })
+          state.loading = false
           router.push({
-            path:'/index'
+            path:'/dashboard'
           })
         })
     }
